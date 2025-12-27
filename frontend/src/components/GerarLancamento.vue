@@ -33,7 +33,7 @@ const salvarLancamento = async () => {
     <h2>
         Registro de Lançamentos
     </h2>
-    <div class="container">
+    <div class="container1">
         <div class="date">
             <q-input v-model="date" filled type="date" hint="Data de Vencimento da parcela" />
         </div>
