@@ -6,7 +6,8 @@ export function useNotify(){
         message: message,
         type: type,
         position: position,
-        timeout: timeout
+        timeout: timeou
+        aa
     })
 }
 return{
