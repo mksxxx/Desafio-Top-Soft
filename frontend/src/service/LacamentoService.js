@@ -12,7 +12,7 @@ export const LancamentoService = {
                 body: JSON.stringify(dados)
             }); 
             //Verifica se a resposta foi ok
-            if (resposta.ok) throw new Error('Erro ao salvar no servidor');
+            if (!resposta.ok) throw new Error('Erro ao salvar no servidor');
 
             return await resposta.json();
 
