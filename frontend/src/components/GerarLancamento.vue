@@ -52,7 +52,7 @@ function fecharModal() {
 
 <template>
     <!--Corpo do modal-->
-    <q-card style="min-width: 700px;"> 
+    <q-card style="min-width: 700px; overflow: hidden;"> 
         <!--Cabeçalho do modal-->   
         <q-card-section> 
             <h2>
