@@ -1,8 +1,8 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import { ListarLancamentosService } from '@/service/CarregarService';
+import Grafico from '@/components/Grafico.vue';
 import GerarLancamento from '@/components/GerarLancamento.vue';
-import { format } from 'quasar';
 
 //Armazena os lançamentos carregados da API
 const lancamentos = ref([])
@@ -21,12 +21,13 @@ async function carregarLancamentos() {
         lancamentos.value = []
     }
 }
+let intervalId 
 //Carrega os lançamentos ao montar o componente
 onMounted(() => {
-    intervalId = setInterval(carregarLancamentos, 1000) // Atualiza a cada 10 segundos
+    intervalId = setInterval(carregarLancamentos, 1000) 
     carregarLancamentos()
 })
-let intervalId 
+
 
 onUnmounted(()=> {
     clearInterval(intervalId)
@@ -83,6 +84,13 @@ function salvarLancamento(dados) {
 </script>
 
 <template>
+    <div class="main">
+    <div class="grafico-container">
+        <Grafico />
+    </div>
+    </div>
+
+    
 
     <!--Tabela de lançamentos-->
     <div class="tabela-container">
@@ -110,7 +118,6 @@ function salvarLancamento(dados) {
 </template>
 
 <style scoped>
-    /* estilização para a tabela */
 .tabela-container {
   position: fixed;   
   bottom: 90px;      
@@ -130,5 +137,19 @@ function salvarLancamento(dados) {
   width: 200px;     
   height: 45px;
   font-weight: bold;
+}
+
+.main{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 100vh;
+    padding: 20px;
+}
+
+.grafico-container {
+    width: 400px;
+    bottom: 20px;
+    
 }
 </style>
