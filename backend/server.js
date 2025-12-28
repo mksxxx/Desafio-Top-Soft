@@ -22,7 +22,7 @@ console.log(process.env.DB_USER)
 
 app.get('/lancamentos', async (req, res) => {
     try {
-        const resultado = await pool.query(`SELECT * FROM lancamentos ORDER BY id`)
+        const resultado = await pool.query(`SELECT * FROM lancamentos ORDER BY id DESC`)
         res.json(resultado.rows)
     } catch (err) {
         console.error('Erro ao conectar', err.message)
@@ -50,6 +50,23 @@ app.post('/cadastro', async (req, res) => {
         res.status(500).json({
             error: 'Erro ao inserir dados no banco'
         })
+    }
+})
+
+app.get('/saldoPagementos', async (req, res) =>{
+    try {
+        const resultado = await pool.query(`SELECT SUM(valor) AS saldo FROM lancamentos WHERE tipo = 'P'`)
+        res.json(resultado.rows[0])
+    } catch (err){
+        console.error('Erro ao consultar saldo de pagamentos', err.message)
+    }
+})
+app.get('/saldoRecebimentos', async (req, res) =>{
+    try {
+        const resultado = await pool.query(`SELECT SUM(valor) AS saldo FROM lancamentos WHERE tipo = 'R'`)
+        res.json(resultado.rows[0])
+    } catch (err){
+        console.error('Erro ao consultar saldo de recebimentos', err.message)
     }
 })
 app.listen(port, () => {
