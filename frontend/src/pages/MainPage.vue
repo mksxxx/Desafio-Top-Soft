@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted} from 'vue';
 import { ListarLancamentosService } from '@/service/CarregarService';
 import Grafico from '@/components/Grafico.vue';
 import GerarLancamento from '@/components/GerarLancamento.vue';
@@ -21,18 +21,10 @@ async function carregarLancamentos() {
         lancamentos.value = []
     }
 }
-let intervalId 
+
 //Carrega os lançamentos ao montar o componente
-onMounted(() => {
-    intervalId = setInterval(carregarLancamentos, 1000) 
-    carregarLancamentos()
-})
-
-
-onUnmounted(()=> {
-    clearInterval(intervalId)
-})
-onUnmounted(() => {
+onMounted(  () => {
+ carregarLancamentos()
     
 })
 //Funções de formatação 
@@ -81,21 +73,16 @@ function salvarLancamento(dados) {
 
 
 
+
+
 </script>
 
 <template>
-    <div class="main">
-    <div class="grafico-container">
-        <Grafico />
-    </div>
-    </div>
-
-    
-
     <!--Tabela de lançamentos-->
-    <div class="tabela-container">
+
+    <div class="container">
         <q-table
-        title="Lançamentos Recentes"
+        title="Lançamentos Gerados"
         :rows="lancamentos"
         :columns="colunas"
         row-key="id"
@@ -106,50 +93,41 @@ function salvarLancamento(dados) {
         style="max-height: 320px"
 
     />
-    </div>
     <!--Botão para abrir o modal-->
         <q-btn color="primary" label="Gerar Lançamento" @click="abrirModal" class="btn-modal" />
+        <div class="grafico">
+            <Grafico />
+        </div>
+         
+    </div>
     
     <!--Modal de registro de lançamento-->
     <q-dialog v-model="mostrarModal" persistent>
         <!--Componente de geração de lançamento-->
         <GerarLancamento :mostrar="mostrarModal" @fechar="fecharModal" @salvar="salvarLancamento" />
     </q-dialog>
+
+     
 </template>
 
 <style scoped>
-.tabela-container {
-  position: fixed;   
-  bottom: 90px;      
-  right: 20px;       
-  width: 650px;      
-  background-color: white;
-  padding: 10px;
-  box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
-  border-radius: 8px;
-}
-
-/* estilização para o botão */
-.btn-modal {
- position: fixed;
-  bottom: 20px;     
-  right: 20px;      
-  width: 200px;     
-  height: 45px;
-  font-weight: bold;
-}
-
-.main{
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    height: 100vh;
-    padding: 20px;
-}
-
-.grafico-container {
-    width: 400px;
-    bottom: 20px;
+.container {
+    margin-top: 150px;
     
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* organiza em coluna */
 }
+
+.btn-modal {
+    align-self: flex-end; /* botão à direita */
+    margin: 15px 20px 20px 0;
+}
+
+.grafico {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+} 
 </style>
